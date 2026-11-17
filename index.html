@@ -18,7 +18,15 @@
 <body>
   <main id="scroller">
     <section id="today-view" aria-labelledby="today-date">
-      <h1 id="today-date" class="date"></h1>
+      <div class="date-row">
+        <h1 id="today-date" class="date"></h1>
+        <button type="button" id="prev-day" class="day-nav" aria-label="이전 날">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+        </button>
+        <button type="button" id="next-day" class="day-nav" aria-label="다음 날">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+      </div>
       <figure class="quote">
         <blockquote id="quote-text"></blockquote>
         <figcaption>
@@ -27,7 +35,7 @@
         </figcaption>
       </figure>
       <div class="reflection">
-        <h2>오늘의 생각거리</h2>
+        <h2 id="reflection-title">오늘의 생각거리</h2>
         <p id="quote-reflection"></p>
       </div>
       <p class="note">명언은 공개된 영역본을 우리말로 옮겼고, 생각거리는 원전이 아니라 이 앱에서 덧붙인 질문입니다.</p>

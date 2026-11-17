@@ -39,15 +39,17 @@ const stored = load(FAVORITES_KEY, []);
 let favorites = Array.isArray(stored) ? stored : [];
 let fontIndex = FONT_SIZES.findIndex((size) => size.value === load(FONT_KEY, "medium"));
 if (fontIndex < 0) fontIndex = 1;
-let currentDay = null;
+let todayDay = null;
+let dayOffset = 0; // 0 is today, 1 is yesterday, and so on.
 let current = null;
 let view = "today";
 
 function renderToday() {
   const now = new Date();
-  currentDay = dayNumber(now);
-  current = quoteForDay(currentDay);
-  $("today-date").textContent = now.toLocaleDateString("ko-KR", {
+  todayDay = dayNumber(now);
+  const shown = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOffset);
+  current = quoteForDay(todayDay - dayOffset);
+  $("today-date").textContent = shown.toLocaleDateString("ko-KR", {
     month: "long",
     day: "numeric",
     weekday: "long",
@@ -56,7 +58,17 @@ function renderToday() {
   $("quote-author").textContent = current.author;
   $("quote-source").textContent = current.source;
   $("quote-reflection").textContent = current.reflection;
+  $("reflection-title").textContent = dayOffset === 0 ? "오늘의 생각거리" : "이날의 생각거리";
+  $("next-day").disabled = dayOffset === 0;
+  // Going back a full cycle would only repeat quotes already shown.
+  $("prev-day").disabled = dayOffset >= QUOTES.length - 1;
   renderSaveButton();
+}
+
+function moveDay(step) {
+  dayOffset = Math.min(Math.max(dayOffset + step, 0), QUOTES.length - 1);
+  renderToday();
+  $("scroller").scrollTop = 0;
 }
 
 function renderSaveButton() {
@@ -126,7 +138,15 @@ function applyFont() {
   $("font-size-label").textContent = size.label;
 }
 
-$("nav-today").addEventListener("click", () => showView("today"));
+$("nav-today").addEventListener("click", () => {
+  if (dayOffset !== 0) {
+    dayOffset = 0;
+    renderToday();
+  }
+  showView("today");
+});
+$("prev-day").addEventListener("click", () => moveDay(1));
+$("next-day").addEventListener("click", () => moveDay(-1));
 $("nav-saved").addEventListener("click", () => showView("saved"));
 $("toggle-save").addEventListener("click", () => toggleFavorite(current.id));
 $("font-size").addEventListener("click", () => {
@@ -137,7 +157,10 @@ $("font-size").addEventListener("click", () => {
 
 // An installed app can stay suspended overnight, so recheck the date when it returns.
 function refreshIfNewDay() {
-  if (dayNumber(new Date()) !== currentDay) renderToday();
+  if (dayNumber(new Date()) !== todayDay) {
+    dayOffset = 0;
+    renderToday();
+  }
 }
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible") refreshIfNewDay();

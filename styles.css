@@ -63,6 +63,48 @@ section {
   font-weight: 500;
 }
 
+.date-row {
+  display: flex;
+  align-items: center;
+  margin: -10px -10px 22px 0;
+}
+
+.date-row .date {
+  flex: 1;
+  margin: 0;
+}
+
+.day-nav {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.day-nav:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.day-nav svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .quote { margin: 0; }
 
 blockquote {
