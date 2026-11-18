@@ -54,6 +54,7 @@ function renderToday() {
     day: "numeric",
     weekday: "long",
   });
+  $("quote-theme").textContent = current.theme;
   $("quote-text").textContent = current.text;
   $("quote-author").textContent = current.author;
   $("quote-source").textContent = current.source;
@@ -86,6 +87,9 @@ function renderSaved() {
   list.replaceChildren(
     ...items.map((quote) => {
       const li = document.createElement("li");
+      const theme = document.createElement("p");
+      theme.className = "theme";
+      theme.textContent = quote.theme;
       const text = document.createElement("p");
       text.textContent = quote.text;
       const meta = document.createElement("div");
@@ -103,7 +107,7 @@ function renderSaved() {
       remove.setAttribute("aria-label", `${quote.source} 저장 삭제`);
       remove.addEventListener("click", () => toggleFavorite(quote.id));
       meta.append(author, source, remove);
-      li.append(text, meta);
+      li.append(theme, text, meta);
       return li;
     }),
   );

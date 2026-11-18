@@ -107,6 +107,13 @@ section {
 
 .quote { margin: 0; }
 
+.theme {
+  margin: 0 0 12px;
+  font-size: calc(var(--body-size) * 0.875);
+  font-weight: 600;
+  color: var(--muted);
+}
+
 blockquote {
   margin: 0;
   font-family: var(--serif);
@@ -178,6 +185,13 @@ figcaption {
   font-family: var(--serif);
   font-size: calc(var(--quote-size) * 0.8);
   line-height: 1.6;
+}
+
+#saved-list .theme {
+  margin-bottom: 6px;
+  font-family: inherit;
+  font-size: calc(var(--body-size) * 0.8125);
+  line-height: 1.4;
 }
 
 #saved-list .meta {
